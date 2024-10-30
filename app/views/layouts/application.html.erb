@@ -1,23 +1,29 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Loja" %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Loja</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= yield :head %>
-
-    <link rel="manifest" href="/manifest.json">
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
-    <%= yield %>
+    <%= nav_bar brand: "Loja", brand_link: root_url do %>
+      <%= menu_group do %>
+        <%= menu_item "Criar novo produto", new_produto_path %>
+      <% end %>
+      <%= form_tag busca_produto_path, method: :get, 
+      class:"navbar-form navbar-right" do %>
+      <div class="form-group">
+        <%= text_field_tag :nome, @nome, class:"form-control" %>
+        <%= button_to "Buscar", nil, class:"btn btn-default" %>
+      </div>
+    <% end %>
+    <% end %>
+      <div class="container">
+        <%= yield %>
+      </div>
   </body>
 </html>
